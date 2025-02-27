@@ -1,6 +1,6 @@
 export const OWNER_NAME: string = `Elia Movahed`;
-export const OWNER_DESCRIPTION: string = `Top Investment Banks`;
+export const OWNER_DESCRIPTION: string = `Educating about the World of Investment Banking`;
 
-export const AI_NAME: string = `Investment Bank Ranker`;
-export const AI_TONE: string = `[AI TONE]`;
+export const AI_NAME: string = `Jamie`;
+export const AI_TONE: string = `Knowledgable`;
 export const AI_ROLE: string = `[AI ROLE]`;
