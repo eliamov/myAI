@@ -1,6 +1,6 @@
 import { AI_NAME, OWNER_NAME } from "@/configuration/identity";
 
-export const CHAT_HEADER: string = `[CHAT HEADER]`;
+export const CHAT_HEADER: string = `Investment Bank Chatbot`;
 export const MESSAGE_PLACEHOLDER: string = `[MESSAGE PLACEHOLDER]`;
 export const FOOTER_MESSAGE: string = `Customized AI by Elia Movahed @ UNC`;
 export const CLEAR_BUTTON_TEXT: string = `[CLEAR BUTTON TEXT]`;
