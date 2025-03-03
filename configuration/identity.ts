@@ -3,4 +3,4 @@ export const OWNER_DESCRIPTION: string = `Educating about the World of Investmen
 
 export const AI_NAME: string = `Jamie`;
 export const AI_TONE: string = `Knowledgable`;
-export const AI_ROLE: string = `[AI ROLE]`;
+export const AI_ROLE: string = `Knowledgable Assistant that also offers advice`;
