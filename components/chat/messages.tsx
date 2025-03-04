@@ -6,8 +6,8 @@ import { Formatting } from "./formatting";
 import { LoadingIndicator } from "@/types";
 import Loading from "./loading";
 import { AI_NAME } from "@/configuration/identity";
-import { Button } from "@/components/ui/button"; // Radix UI Button
-import { X } from "lucide-react"; // Close icon for removing messages
+import { Button } from "@/components/ui/button";
+import { X } from "lucide-react";
 
 function AILogo() {
   return (
@@ -23,7 +23,7 @@ function UserMessage({ message }: { message: DisplayMessage }) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      className="flex flex-1 py-1 justify-end"
+      className="flex justify-end"
     >
       <motion.div
         whileHover={{ scale: 1.01 }}
@@ -48,7 +48,7 @@ function AssistantMessage({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      className="flex flex-1 py-1 justify-start gap-[5px]"
+      className="flex justify-start gap-[5px]"
     >
       <div className="w-9 flex items-end">{<AILogo />}</div>
       <motion.div
@@ -57,7 +57,6 @@ function AssistantMessage({
         className="px-3 py-1 bg-gray-200 rounded-2xl text-black max-w-[60%] shadow-sm hover:shadow-md transition-shadow duration-300"
       >
         <Formatting message={message} />
-        {/* Save Button */}
         <Button
           onClick={onSaveMessage}
           size="sm"
@@ -72,7 +71,7 @@ function AssistantMessage({
 
 function EmptyMessages() {
   return (
-    <div className="flex flex-col flex-1 p-1 gap-3 justify-center items-center">
+    <div className="flex flex-col flex-1 justify-center items-center">
       <p className="text-gray-500">Ask a question to start the conversation</p>
     </div>
   );
@@ -101,15 +100,9 @@ export default function ChatMessages({
   };
 
   return (
-    <div className="flex flex-row h-screen">
-      {/* Chat Messages Section */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5 }}
-        className="flex flex-col flex-1 p-1 gap-3"
-      >
-        <div className="h-[60px]"></div>
+    <div className="flex h-screen overflow-hidden">
+      {/* Chat Messages Section (Now scrollable and takes more space) */}
+      <div className="flex-1 flex flex-col h-full overflow-y-auto p-4">
         {messages.length === 0 ? (
           <EmptyMessages />
         ) : (
@@ -132,10 +125,11 @@ export default function ChatMessages({
           ))
         )}
         {showLoading && <Loading indicatorState={indicatorState} />}
-      </motion.div>
+        <div className="h-[150px]"></div> {/* Extra space for smooth scrolling */}
+      </div>
 
-      {/* Sidebar for Saved Messages */}
-      <div className="w-64 bg-gray-100 p-4 border-l shadow-md overflow-y-auto">
+      {/* Sidebar for Saved Messages (Fixed to the Right) */}
+      <div className="w-[300px] h-full bg-gray-100 p-4 border-l shadow-md overflow-y-auto fixed right-0 top-0 bottom-0">
         <h2 className="text-lg font-bold mb-2">Saved Messages</h2>
         {savedMessages.length === 0 ? (
           <p className="text-gray-500 text-sm">No saved messages.</p>
