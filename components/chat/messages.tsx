@@ -108,15 +108,10 @@ export default function ChatMessages({
         transition={{ duration: 0.5 }}
         className="flex-1 flex flex-col p-1 gap-3"
       >
-        {/* White Bar (Fixed Header) */}
-        <div className="h-[60px] bg-white shadow-md flex items-center justify-center fixed top-0 w-full z-10">
-          <h2 className="text-lg font-bold">Chat</h2>
-        </div>
-
-        {/* Chat Messages Scrollable Area (Pushed Down to Avoid Overlap) */}
+        {/* Chat Messages Scrollable Area */}
         <div
           ref={chatContainerRef}
-          className="flex-1 overflow-y-auto p-4 mt-[60px]" // Pushes content below white bar
+          className="flex-1 overflow-y-auto p-4"
         >
           {messages.length === 0 ? (
             <div className="flex flex-col flex-1 justify-center items-center text-gray-500">
