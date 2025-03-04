@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function Terms() {
   return (
-    <div className="w-full flex justify-center p-10">
+    <div className="w-full flex justify-center p-10 bg-gray-900 text-white">
       <div className="w-full max-w-screen-md space-y-6">
         <Link
           href="/"
