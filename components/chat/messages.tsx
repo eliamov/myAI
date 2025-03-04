@@ -6,7 +6,8 @@ import { Formatting } from "./formatting";
 import { LoadingIndicator } from "@/types";
 import Loading from "./loading";
 import { AI_NAME } from "@/configuration/identity";
-import { Button } from "@/components/ui/button"; // Import Radix UI Button
+import { Button } from "@/components/ui/button"; // Radix UI Button
+import { X } from "lucide-react"; // Close icon for removing messages
 
 function AILogo() {
   return (
@@ -95,48 +96,65 @@ export default function ChatMessages({
     setSavedMessages((prev) => [...prev, message]);
   };
 
+  const handleRemoveMessage = (index: number) => {
+    setSavedMessages((prev) => prev.filter((_, i) => i !== index));
+  };
+
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
-      className="flex flex-col flex-1 p-1 gap-3"
-    >
-      <div className="h-[60px]"></div>
-      {messages.length === 0 ? (
-        <EmptyMessages />
-      ) : (
-        messages.map((message, index) => (
-          <motion.div
-            key={index}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, delay: index * 0.1 }}
-          >
-            {message.role === "user" ? (
-              <UserMessage message={message} />
-            ) : (
-              <AssistantMessage
-                message={message}
-                onSaveMessage={() => handleSaveMessage(message)}
-              />
-            )}
-          </motion.div>
-        ))
-      )}
-      {showLoading && <Loading indicatorState={indicatorState} />}
+    <div className="flex flex-row h-screen">
+      {/* Chat Messages Section */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+        className="flex flex-col flex-1 p-1 gap-3"
+      >
+        <div className="h-[60px]"></div>
+        {messages.length === 0 ? (
+          <EmptyMessages />
+        ) : (
+          messages.map((message, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: index * 0.1 }}
+            >
+              {message.role === "user" ? (
+                <UserMessage message={message} />
+              ) : (
+                <AssistantMessage
+                  message={message}
+                  onSaveMessage={() => handleSaveMessage(message)}
+                />
+              )}
+            </motion.div>
+          ))
+        )}
+        {showLoading && <Loading indicatorState={indicatorState} />}
+      </motion.div>
 
-      {/* Saved Messages Section */}
-      {savedMessages.length > 0 && (
-        <div className="mt-4 p-3 border rounded bg-gray-100">
-          <h2 className="text-lg font-bold mb-2">Saved Messages</h2>
-          {savedMessages.map((msg, i) => (
-            <p key={i} className="text-sm p-1 border-b">{msg.content}</p>
-          ))}
-        </div>
-      )}
-
-      <div className="h-[225px]"></div>
-    </motion.div>
+      {/* Sidebar for Saved Messages */}
+      <div className="w-64 bg-gray-100 p-4 border-l shadow-md overflow-y-auto">
+        <h2 className="text-lg font-bold mb-2">Saved Messages</h2>
+        {savedMessages.length === 0 ? (
+          <p className="text-gray-500 text-sm">No saved messages.</p>
+        ) : (
+          savedMessages.map((msg, index) => (
+            <div key={index} className="p-2 border-b flex justify-between items-center">
+              <p className="text-sm">{msg.content}</p>
+              <Button
+                onClick={() => handleRemoveMessage(index)}
+                size="icon"
+                variant="ghost"
+                className="text-gray-500 hover:text-red-600"
+              >
+                <X className="w-4 h-4" />
+              </Button>
+            </div>
+          ))
+        )}
+      </div>
+    </div>
   );
 }
