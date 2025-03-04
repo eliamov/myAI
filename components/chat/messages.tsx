@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { DisplayMessage } from "@/types";
 import { motion } from "framer-motion";
 import Image from "next/image";
@@ -5,6 +6,7 @@ import { Formatting } from "./formatting";
 import { LoadingIndicator } from "@/types";
 import Loading from "./loading";
 import { AI_NAME } from "@/configuration/identity";
+import { Button } from "@/components/ui/button"; // Import Radix UI Button
 
 function AILogo() {
   return (
@@ -33,7 +35,13 @@ function UserMessage({ message }: { message: DisplayMessage }) {
   );
 }
 
-function AssistantMessage({ message }: { message: DisplayMessage }) {
+function AssistantMessage({
+  message,
+  onSaveMessage,
+}: {
+  message: DisplayMessage;
+  onSaveMessage: () => void;
+}) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -48,6 +56,14 @@ function AssistantMessage({ message }: { message: DisplayMessage }) {
         className="px-3 py-1 bg-gray-200 rounded-2xl text-black max-w-[60%] shadow-sm hover:shadow-md transition-shadow duration-300"
       >
         <Formatting message={message} />
+        {/* Save Button */}
+        <Button
+          onClick={onSaveMessage}
+          size="sm"
+          className="mt-1 text-xs bg-blue-500 text-white px-2 py-1 rounded-md hover:bg-blue-600"
+        >
+          Save
+        </Button>
       </motion.div>
     </motion.div>
   );
@@ -68,10 +84,16 @@ export default function ChatMessages({
   messages: DisplayMessage[];
   indicatorState: LoadingIndicator[];
 }) {
+  const [savedMessages, setSavedMessages] = useState<DisplayMessage[]>([]);
+
   const showLoading =
     indicatorState.length > 0 &&
     messages.length > 0 &&
     messages[messages.length - 1].role === "user";
+
+  const handleSaveMessage = (message: DisplayMessage) => {
+    setSavedMessages((prev) => [...prev, message]);
+  };
 
   return (
     <motion.div
@@ -94,12 +116,26 @@ export default function ChatMessages({
             {message.role === "user" ? (
               <UserMessage message={message} />
             ) : (
-              <AssistantMessage message={message} />
+              <AssistantMessage
+                message={message}
+                onSaveMessage={() => handleSaveMessage(message)}
+              />
             )}
           </motion.div>
         ))
       )}
       {showLoading && <Loading indicatorState={indicatorState} />}
+
+      {/* Saved Messages Section */}
+      {savedMessages.length > 0 && (
+        <div className="mt-4 p-3 border rounded bg-gray-100">
+          <h2 className="text-lg font-bold mb-2">Saved Messages</h2>
+          {savedMessages.map((msg, i) => (
+            <p key={i} className="text-sm p-1 border-b">{msg.content}</p>
+          ))}
+        </div>
+      )}
+
       <div className="h-[225px]"></div>
     </motion.div>
   );
