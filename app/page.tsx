@@ -19,7 +19,7 @@ export default function Chat() {
   return (
     <div className="h-screen flex flex-col bg-gradient-to-br from-[#0A1F44] via-[#1C3A70] to-[#AAB7C4] text-white">
       {/* Chat Header */}
-      <ChatHeader clearMessages={clearMessages} className="bg-[#0A1F44] shadow-md" />
+      <ChatHeader clearMessages={clearMessages} />
 
       {/* Chat Messages Section */}
       <div className="flex flex-1 justify-center items-center">
@@ -34,7 +34,6 @@ export default function Chat() {
         handleSubmit={handleSubmit}
         input={input}
         isLoading={isLoading}
-        className="bg-[#0A1F44] border-t border-[#AAB7C4] shadow-md"
       />
     </div>
   );
