@@ -101,14 +101,23 @@ export default function ChatMessages({
 
   return (
     <div className="flex h-screen">
-      {/* Chat Messages Section (Now scrollable and fully visible) */}
+      {/* Chat Messages Section (Scrollable & Fully Visible) */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
         className="flex-1 flex flex-col p-1 gap-3"
       >
-        <div ref={chatContainerRef} className="flex-1 overflow-y-auto p-4">
+        {/* White Bar (Fixed Header) */}
+        <div className="h-[60px] bg-white shadow-md flex items-center justify-center fixed top-0 w-full z-10">
+          <h2 className="text-lg font-bold">Chat</h2>
+        </div>
+
+        {/* Chat Messages Scrollable Area (Pushed Down to Avoid Overlap) */}
+        <div
+          ref={chatContainerRef}
+          className="flex-1 overflow-y-auto p-4 mt-[60px]" // Pushes content below white bar
+        >
           {messages.length === 0 ? (
             <div className="flex flex-col flex-1 justify-center items-center text-gray-500">
               Ask a question to start the conversation
@@ -134,7 +143,6 @@ export default function ChatMessages({
           )}
           {showLoading && <Loading indicatorState={indicatorState} />}
         </div>
-        <div className="h-[60px]"></div> {/* Push chat down slightly for better visibility */}
       </motion.div>
 
       {/* Sidebar for Saved Messages (Fixed Right, Full Height) */}
