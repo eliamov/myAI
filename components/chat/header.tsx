@@ -1,5 +1,6 @@
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { EraserIcon } from "lucide-react";
+import { SunIcon, MoonIcon, EraserIcon } from "lucide-react";
 import Image from "next/image";
 import { CHAT_HEADER, CLEAR_BUTTON_TEXT } from "@/configuration/ui";
 import { AI_NAME } from "@/configuration/identity";
@@ -16,15 +17,52 @@ export default function ChatHeader({
 }: {
   clearMessages: () => void;
 }) {
+  const [darkMode, setDarkMode] = useState(false);
+
+  // Check localStorage for user preference on mount
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme === "dark") {
+      setDarkMode(true);
+      document.documentElement.classList.add("dark");
+    }
+  }, []);
+
+  // Toggle dark mode
+  const toggleDarkMode = () => {
+    setDarkMode((prev) => {
+      const newMode = !prev;
+      if (newMode) {
+        document.documentElement.classList.add("dark");
+        localStorage.setItem("theme", "dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+        localStorage.setItem("theme", "light");
+      }
+      return newMode;
+    });
+  };
+
   return (
-    <div className="z-10 flex justify-center items-center fixed top-0 w-full p-5 bg-white shadow-[0_10px_15px_-3px_rgba(255,255,255,1)]">
+    <div className="z-10 flex justify-center items-center fixed top-0 w-full p-5 bg-white dark:bg-gray-900 shadow-md">
       <div className="flex w-full">
         <div className="flex-0 w-[100px]"></div>
         <div className="flex-1 flex justify-center items-center gap-2">
           <AILogo />
-          <p>{CHAT_HEADER}</p>
+          <p className="text-black dark:text-white">{CHAT_HEADER}</p>
         </div>
-        <div className="flex-0 w-[100px] flex justify-end items-center">
+        <div className="flex-0 w-[100px] flex justify-end items-center gap-2">
+          {/* Dark Mode Toggle Button */}
+          <Button
+            onClick={toggleDarkMode}
+            className="gap-2 shadow-sm"
+            variant="outline"
+            size="sm"
+          >
+            {darkMode ? <SunIcon className="w-5 h-5 text-yellow-400" /> : <MoonIcon className="w-5 h-5 text-gray-600" />}
+          </Button>
+
+          {/* Clear Messages Button */}
           <Button
             onClick={clearMessages}
             className="gap-2 shadow-sm"
