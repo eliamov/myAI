@@ -105,7 +105,7 @@ export default function ChatMessages({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="flex flex-col flex-1 p-1 gap-3"
+      className="flex flex-col flex-1 p-1 gap-3 bg-blue-100" // Light Blue Background Applied Here
     >
       <div className="h-[60px]"></div>
       {messages.length === 0 ? (
@@ -133,7 +133,7 @@ export default function ChatMessages({
       <div className="h-[225px]"></div>
 
       {/* Saved Messages Section at the Bottom */}
-      <div className="fixed bottom-0 left-0 w-full bg-gray-100 border-t shadow-md p-2">
+      <div className="fixed bottom-0 left-0 w-full bg-blue-200 border-t shadow-md p-2">
         <div className="flex justify-between items-center">
           <h2 className="text-sm font-bold">Saved Messages</h2>
           <Button
