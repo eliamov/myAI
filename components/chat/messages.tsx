@@ -78,7 +78,7 @@ export default function ChatMessages({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="flex flex-col flex-1 p-1 gap-3"
+      className="flex flex-col flex-1 p-1 gap-3 bg-gradient-to-b from-blue-100 to-white" // Gradient Background
     >
       <div className="h-[60px]"></div>
       {messages.length === 0 ? (
